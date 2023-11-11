@@ -1,0 +1,70 @@
+name: Pytho
+
+on:
+  push:
+    branches: [ "poetry_cicd" ]
+  pull_request:
+    branches: [ "poetry_cicd" ]
+
+permissions:
+  contents: read
+
+env:
+  BASH_SCRIPT_NAME: ${{ secrets.BASH_SCRIPT_NAME }}
+  BASH_SCRIPT_PATH: ${{ secrets.BASH_SCRIPT_PATH }}
+  CREDENTIALS_PATH: ${{ secrets.CREDENTIALS_PATH }}
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.8"
+        
+    - name: Install Poetry
+      run: |
+        pipx install poetry
+        
+    - name: Install dependencies
+      run: |
+        cd project-3
+        poetry init
+        poetry add python
+        poetry add gspread
+        poetry add selenium
+        poetry add python-dotenv
+        poetry add black
+        poetry add pylint
+        poetry add pytest
+        poetry add fire
+        poetry add python-decouple
+        poetry add pandas
+        poetry add pydantic
+        poetry add gspread-dataframe
+        poetry add fastparquet
+        
+    - name: Format code with Black
+      run: |
+        cd project-3
+        poetry run black tests/unit/*.py ./cli.py ./exceptions.py ./main.py
+        
+    - name: Lint code with pylint
+      run: |
+        cd project-3
+        poetry run pylint tests/unit/*.py ./cli.py ./exceptions.py ./main.py
+      continue-on-error: true
+
+    - name: Test with pytest
+      run: |
+        cd project-3
+        poetry run pytest tests/unit/test_gspread_utility.py 
+        
+    - name: Deploy to server
+      run: |
+        make deploy
