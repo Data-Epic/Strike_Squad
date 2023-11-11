@@ -2,10 +2,9 @@ name: Test gspread utility
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "poetry_cicd" ]
   pull_request:
-    branches: [ "main" ]
-
+    branches: [ "poetry_cicd" ]
 permissions:
   contents: read
 
