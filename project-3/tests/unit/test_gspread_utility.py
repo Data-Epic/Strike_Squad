@@ -118,7 +118,6 @@ def test_download_data_failure(mock_download_data, workbook_instance):
     with pytest.raises(DownloadDataError):
         workbook_instance.download_data()
 
-
 # test creation of new spredsheet
 # @patch("main.gspread.authorize")
 # def test_create_new_spreadsheet_success(mock_authorize, workbook_instance):
