@@ -50,6 +50,3 @@ jobs:
         cd project-3
         poetry run pytest tests/unit/test_gspread_utility.py 
         
-    - name: Deploy to server
-      run: |
-        make deploy
