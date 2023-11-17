@@ -25,7 +25,11 @@ lint:
 
 test:
 	# run unit and integration tests
-	pytest -s project-3/tests/unit/test_gspread_utility.py	
+	pytest -s project-3/tests/unit/test_gspread_utility.py
+
+poetry_test:
+	# run unit test using poetry 
+	poetry run pytest tests/unit/test_gspread_utility.py	
 
 deploy:
 	# deploy code to cloud
