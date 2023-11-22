@@ -22,6 +22,8 @@
       DB_USER=<"your_db_username>
       DB_PASSWORD=<"your_db_password>
       DB_NAME=<"your_database_name">
+      HOST="localhost"
+      PORT="5432"
 
 ### Project Directory structure
       project-5
@@ -43,3 +45,8 @@
 - `poetry.lock`: lock file for dependencies (recomended over toml file for installation)
 - `pyproject.toml`: poetry project dependencies and meta-data
 - `utils.py`: all helper funtions goes here
+
+
+### for dev purpose only **⚠️**
+- BBeaver console sample 
+![BBeaver Table created](./static/dbeaver-dev.png)
