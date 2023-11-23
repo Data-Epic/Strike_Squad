@@ -12,3 +12,11 @@ class ConnectToDatabaseError(Exception):
 
 class CreateTableError(Exception):
     pass
+
+
+class InsertError(Exception):
+    pass
+
+
+class ValidationError(Exception):
+    pass
