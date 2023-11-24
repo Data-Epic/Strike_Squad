@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from exceptions import ExtractFromSheetsError, ConnectToDatabaseError, CreateTableError, InsertError, ValidationError
 from utils import sheet_to_dataframe
 
-
 # logging config
 logging.basicConfig(
     level=logging.INFO,
@@ -108,9 +107,9 @@ class DBUtility:
                 self.data_type_validation()
 
                 if (self.df['Company Name'][num] != 'None' or
-                    self.df['Company Link'][num] != 'None' or
-                     self.df['Company LinkedIn'][num] != 'None'):
-                # execute raw query
+                        self.df['Company Link'][num] != 'None' or
+                        self.df['Company LinkedIn'][num] != 'None'):
+                    # execute raw query
                     cursor.execute(insert_script, insert_values)
                 else:
                     logging.info("No input detected")
@@ -125,7 +124,7 @@ class DBUtility:
             except Exception as e:
                 raise InsertError("cannot insert into table") from e
 
-    def validation(self):
+    def table_validation(self):
         """
         This function adds constraints to the database
         """
@@ -159,9 +158,9 @@ class DBUtility:
         This function validates the data type
         """
         for num in range(len(self.df)):
-            if (self.df['Company Name'][num] == str or
-                    self.df['Company Link'][num] == str or
-                    self.df['Company LinkedIn'][num] == str):
+            if (isinstance(self.df['Company Name'][num], str) and
+                    isinstance(self.df['Company Link'][num], str) and
+                    isinstance(self.df['Company LinkedIn'][num], str)):
                 logging.info('Data type validated')
 
 
