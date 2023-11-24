@@ -16,9 +16,11 @@ logging.basicConfig(
 
 # load env variables from .env file
 load_dotenv()
+SHEET_URL = os.environ.get("SHEET_URL")
+WORKSHEET_NAME = os.environ.get("WORKSHEET_NAME")
 
 
-class NyTaxiUtility:
+class DBUtility:
     def __init__(self, url: str, worksheet_name: str) -> None:
         self.url = url
         self.worksheet_name = worksheet_name
@@ -31,6 +33,9 @@ class NyTaxiUtility:
         self.connection = None
 
     def extract_from_google_sheet(self) -> None:
+        """
+        This function Extracts data from a Google sheet
+        """
         try:
             self.df = sheet_to_dataframe(self.url, self.worksheet_name)
             logging.info("Extracted Data from Google Sheets successfully.")
@@ -41,6 +46,9 @@ class NyTaxiUtility:
             ) from e
 
     def connect_to_database(self) -> None:
+        """
+        This function creates a connection to the database
+        """
         try:
             self.connection = psycopg2.connect(
                 dbname=self.db_name,
@@ -55,6 +63,9 @@ class NyTaxiUtility:
             raise ConnectToDatabaseError("cannot connect to postgres database") from e
 
     def create_postgres_table(self) -> None:
+        """
+        This function creates the postgresql table if it does not exist in the database
+        """
         query = """
         CREATE TABLE IF NOT EXISTS companies (
         id SERIAL PRIMARY KEY,
@@ -82,6 +93,9 @@ class NyTaxiUtility:
             raise CreateTableError("cannot create table") from e
 
     def insert(self) -> None:
+        """
+        This function ingests the data into the database
+        """
         for num in range(len(self.df)):
             insert_script = ("INSERT INTO companies (company_name, company_link, company_linkedin) "
                              "VALUES (%s, %s, %s)")
@@ -91,10 +105,11 @@ class NyTaxiUtility:
             try:
                 # create cursor object
                 cursor = self.connection.cursor()
+                self.data_type_validation()
 
                 if (self.df['Company Name'][num] != 'None' or
-                    self.df['Company Name'][num] != 'None' or
-                     self.df['Company Name'][num] != 'None'):
+                    self.df['Company Link'][num] != 'None' or
+                     self.df['Company LinkedIn'][num] != 'None'):
                 # execute raw query
                     cursor.execute(insert_script, insert_values)
                 else:
@@ -111,24 +126,22 @@ class NyTaxiUtility:
                 raise InsertError("cannot insert into table") from e
 
     def validation(self):
-        query1 = """
-        ALTER TABLE companies
-        ADD CHECK (company_name <> company_link)
         """
-        query2 = """
-        ALTER TABLE companies
-        ADD CHECK (companies_name <> company_linkedin)
+        This function adds constraints to the database
         """
-        query3 = """
-        ALTER TABLE companies
-        ADD CHECK (company_linkedin <> company_link)
-        """
+        query1 = "ALTER TABLE companies ADD CHECK (company_name <> company_link)"
+        query2 = "ALTER TABLE companies ADD CHECK (company_name <> company_linkedin)"
+        query3 = "ALTER TABLE companies ADD CHECK (company_linkedin <> company_link)"
+        query4 = "ALTER TABLE companies ADD UNIQUE (company_name)"
+
         try:
             # create cursor object
             cursor = self.connection.cursor()
 
             # execute raw query
-            cursor.execute(query1, query2)
+            cursor.execute(query1)
+            cursor.execute(query2)
+            cursor.execute(query4)
             cursor.execute(query3)
 
             # Commit the changes
@@ -137,19 +150,29 @@ class NyTaxiUtility:
             # Close the cursor object
             cursor.close()
 
-            logging.info("created table successfully")
+            logging.info("data validated successfully")
         except Exception as e:
             raise ValidationError("validation failed") from e
 
-        self.insert()
+    def data_type_validation(self):
+        """
+        This function validates the data type
+        """
+        for num in range(len(self.df)):
+            if (self.df['Company Name'][num] == str or
+                    self.df['Company Link'][num] == str or
+                    self.df['Company LinkedIn'][num] == str):
+                logging.info('Data type validated')
 
 
-# flow
-SHEET_URL = os.environ.get("SHEET_URL")
-WORKSHEET_NAME = os.environ.get("WORKSHEET_NAME")
+def main():
+    new = DBUtility(SHEET_URL, WORKSHEET_NAME)
+    new.extract_from_google_sheet()
+    new.connect_to_database()
+    new.create_postgres_table()
+    # new.validation()  # run once then comment out to avoid multiple constraint creation
+    new.insert()
 
-new = NyTaxiUtility(SHEET_URL, WORKSHEET_NAME)
-new.extract_from_google_sheet()
-new.connect_to_database()
-new.create_postgres_table()
-new.validation()
+
+if __name__ == "__main__":
+    main()
