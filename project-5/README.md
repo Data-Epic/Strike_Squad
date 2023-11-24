@@ -11,7 +11,7 @@ The `DBUtility` class contains the following methods:
 - `connect_to_database`: Connects to a PostgreSQL database.
 - `create_postgres_table`: Creates a PostgreSQL table named `companies` with specific columns.
 - `insert`: Inserts data into the `companies` table from the extracted DataFrame.
-- `validation`: Applies CHECK constraints to ensure specific conditions are met within the `companies` table.
+- `table_validation`: Applies CHECK constraints to ensure specific conditions are met within the `companies` table.
 - `data_type_validation`:  Applies CHECK to ensure specific data types are met 
 
 ### Data source:
@@ -23,7 +23,7 @@ The `DBUtility` class contains the following methods:
 - Bash
 - GCP
 - PostgreSQL
-- Python 
+- Python  <br>
   *Dependencies used:*
   - pandas: `^2.1.3`
   - gspread: `^5.12.0`
