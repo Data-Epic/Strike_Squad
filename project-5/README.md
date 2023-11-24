@@ -3,9 +3,9 @@
 ## Overview
 Project 5 revolves entirely around transferring data from a spreadsheet to a database. The dataset comprises publicly available scraped information from the [lusha](lusha.com) website, specifically focusing on companies in Canada.
 
-The provided script in `main.py` defines a utility class, `NyTaxiUtility`, for extracting data from a Google Sheet document, processes and validates the data while interacting with a PostgreSQL database for ingestion. 
+The provided script in `main.py` defines a utility class, `DBUtility`, for extracting data from a Google Sheet document, processes and validates the data while interacting with a PostgreSQL database for ingestion. 
 
-The `NyTaxiUtility` class contains the following methods:
+The `DBUtility` class contains the following methods:
 
 - `extract_from_google_sheet`: Extracts `company` data from a public Google Sheet document.
 - `connect_to_database`: Connects to a PostgreSQL database.
