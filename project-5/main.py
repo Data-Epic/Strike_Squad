@@ -68,9 +68,9 @@ class DBUtility:
         query = """
         CREATE TABLE IF NOT EXISTS companies (
         id SERIAL PRIMARY KEY,
-        company_name VARCHAR(100) NOT NULL, 
-        company_link VARCHAR(240), 
-        company_linkedin VARCHAR(240) 
+        name VARCHAR(100) NOT NULL, 
+        link VARCHAR(240), 
+        linkedin VARCHAR(240) 
         )
         """
 
@@ -96,7 +96,7 @@ class DBUtility:
         This function ingests the data into the database
         """
         for num in range(len(self.df)):
-            insert_script = ("INSERT INTO companies (company_name, company_link, company_linkedin) "
+            insert_script = ("INSERT INTO companies (name, link, linkedin) "
                              "VALUES (%s, %s, %s)")
             insert_values = (f'{self.df["Company Name"][num]}', f"{self.df['Company Link'][num]}",
                              f"{self.df['Company LinkedIn'][num]}")
@@ -128,10 +128,10 @@ class DBUtility:
         """
         This function adds constraints to the database
         """
-        query1 = "ALTER TABLE companies ADD CHECK (company_name <> company_link)"
-        query2 = "ALTER TABLE companies ADD CHECK (company_name <> company_linkedin)"
-        query3 = "ALTER TABLE companies ADD CHECK (company_linkedin <> company_link)"
-        query4 = "ALTER TABLE companies ADD UNIQUE (company_name)"
+        query1 = "ALTER TABLE companies ADD CHECK (name <> link)"
+        query2 = "ALTER TABLE companies ADD CHECK (name <> linkedin)"
+        query3 = "ALTER TABLE companies ADD CHECK (linkedin <> link)"
+        query4 = "ALTER TABLE companies ADD UNIQUE (name)"
 
         try:
             # create cursor object
@@ -162,6 +162,8 @@ class DBUtility:
                     isinstance(self.df['Company Link'][num], str) and
                     isinstance(self.df['Company LinkedIn'][num], str)):
                 logging.info('Data type validated')
+            else:
+                logging.info("Data validation failed")
 
 
 def main():
