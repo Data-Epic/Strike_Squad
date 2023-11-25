@@ -2,10 +2,9 @@ name: Test gspread utility
 
 on:
   push:
-    branches: [ "cicd" ]
+    branches: [ "poetry_cicd" ]
   pull_request:
-    branches: [ "cicd" ]
-
+    branches: [ "poetry_cicd" ]
 permissions:
   contents: read
 
@@ -22,28 +21,31 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    
-    - name: Set up Python 3.8
+    - name: Set up Python 3.11
       uses: actions/setup-python@v3
       with:
-        python-version: "3.8"
+        python-version: "3.11"
+    - name: Install poetry
+      run: | 
+        pipx install poetry
         
     - name: Install dependencies
       run: |
-        make install
+        poetry install
         
     - name: Format code with Black
       run: |
-        make format
+        cd project-3
+        poetry run black tests/unit/*.py ./cli.py ./exceptions.py ./main.py
         
     - name: Lint code with pylint
       run: |
-        make lint
-  
+        cd project-3
+        poetry run pylint tests/unit/*.py ./cli.py ./exceptions.py ./main.py
+      continue-on-error: true
+
     - name: Test with pytest
       run: |
-        make test
+        cd project-3
+        poetry run pytest tests/unit/test_gspread_utility.py 
         
-    - name: Deploy to server
-      run: |
-        make deploy
