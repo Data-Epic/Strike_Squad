@@ -5,6 +5,7 @@ on:
     branches: [ "poetry_cicd" ]
   pull_request:
     branches: [ "poetry_cicd" ]
+    
 permissions:
   contents: read
 
