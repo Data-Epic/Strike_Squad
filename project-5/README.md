@@ -98,6 +98,7 @@ ___
 - `utils.py`: all helper funtions goes here
 
 ## Results
+![Query to fetch ten items from DB](static/dbeaver_console.png)
 
 <!-- ### for dev purpose only **⚠️**
 - BBeaver console sample 
