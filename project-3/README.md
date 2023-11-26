@@ -25,13 +25,13 @@ This Python script simplifies interactions with Google Sheets using the [gspread
   - example: `python3 cli.py main --spread_sheet=grocery_transactions1 --csv_data_path=./data/grocery_transactions.csv --worksheet_name=sheet2 --email=bestnyah7@gmail.com`
 
 ## Test
-- **Unit Tests**: run with `make test`
+- **Unit Tests**: run with `make test` in `Makefile` directory
 
 output:
       [Link to spread sheet](https://docs.google.com/spreadsheets/d/1AkbhHTh-9HtWtNiGm4uEpJ3CTPv81f2CODeUkOkIGvs/edit?usp=sharing)
 
 
-#### Libraries used
+#### Dependencies used
 - fire: Python CLI creation.
 - google-auth: Google Cloud Platform authentication.
 - gspread: Google Sheets interaction.
@@ -39,4 +39,6 @@ output:
 - pandas: read csv file
 - pytest: for unit & integration tests
 - fastparquet: driver for parquet files
-- python-decouple: read env variables
+- poetry: for dependency management
+- black: for code fromating 
+- pylint: for code linting

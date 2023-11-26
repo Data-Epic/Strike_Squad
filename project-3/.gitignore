@@ -5,3 +5,5 @@ venv/
 # credentials.json
 testCredentials.json
 project-3/.github/workflows/gspread-cicd.yml
+.github/workflows/gspread-cicd.yml
+dummy.yml
