@@ -3,12 +3,12 @@
 ## Overview
 Project 6 revolves entirely around transferring data from a csv to a database. The dataset comprises of data from the uni-variate and bi-variate task given in week 4 in the Data-Epic mentorship program
 
-The provided script in `main.py` which defines two database class, `Arts`, this class is for creating the table using SQLAlchemy ORM and `Artdb`, for extracting data from the CSV file, processes and validates the data while interacting with a SQLAlchemy ORM for ingestion. 
+The provided script in `main.py` which defines two database class, `Arts`, this class is for creating the table using SQLAlchemy ORM and `ArtUtility`, for extracting data from the CSV file, processes and validates the data while interacting with a SQLAlchemy ORM for ingestion. 
 
-The `Artsdb` class contains the following methods:
+The `ArtsUtility` class contains the following methods:
 
 - `read_data`: Extracts data from a CSV file.
-- `data_ingeation`: Inserts data into the `arts_db` table from the extracted DataFrame.
+- `data_ingestion`: Inserts data into the `arts_db` table from the extracted DataFrame.
 - `data_validation`: Applies CHECK to ensure specific data types are met.
 
 
@@ -85,14 +85,19 @@ ___
 - `test_main.py`: all pytest functions in this file
 
 ## Results
+- Query to fetch all items from DB
 ![Query to fetch all items from DB](static/query5.png)
 
+- Query to fetch department in order of most occurring to least occurring from DB
 ![Query to fetch department in order of most occurring to least occurring from DB](static/query4.png)
 
+- Query to fetch title, date_acquired, artist from DB
 ![Query to fetch title, date_acquired, artist from DB](static/query3.png)
 
+- Query to fetch height greater than 50cm from DB
 ![Query to fetch height greater than 50cm from DB](static/query2.png)
 
+- Query to fetch artist in order of most occurring to least occurring from DB
 ![Query to fetch artist in order of most occurring to least occurring from DB](static/query1.png)
 <!-- ### for dev purpose only **⚠️**
 - BBeaver console sample 
