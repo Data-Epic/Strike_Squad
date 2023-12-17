@@ -105,7 +105,7 @@ class ArtsUtility:
 
 
 if __name__ == "__main__":
-    apps = ArtsDb(DATA)
+    apps = ArtsUtility(DATA)
     apps.read_data()
     apps.data_validation()
     apps.data_ingestion()

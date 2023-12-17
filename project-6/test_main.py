@@ -1,8 +1,8 @@
 import pytest
-from main import ArtsDb, DATA
+from main import ArtsUtility, DATA
 from exceptions import *
 
-apps = ArtsDb(DATA)
+apps = ArtsUtility(DATA)
 
 
 def test_read_data():
