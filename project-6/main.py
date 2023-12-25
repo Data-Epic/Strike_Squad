@@ -20,17 +20,18 @@ Base = declarative_base()
 class Arts(Base):
     __tablename__ = "museum_arts"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, index=True)
     date_created = Column(DateTime)
     title = Column(String)
-    artist = Column(String)
-    constituent_id = Column(Integer, primary_key=True, index=True)
+    artist = Column(String, primary_key=True)
+    constituent_id = Column(Integer, index=True)
     date_acquired = Column(DateTime)
     medium = Column(String)
     credit_line = Column(String)
     classification = Column(String)
     department = Column(String)
     cataloged = Column(String)
+    object_id = Column(Integer, primary_key=True)
     height = Column(Float)
     width = Column(Float)
 
@@ -59,6 +60,7 @@ class ArtsUtility:
                                   date_acquired=self.df['DateAcquired'][num], medium=self.df['Medium'][num],
                                   credit_line=self.df['CreditLine'][num], classification=self.df['Classification'][num],
                                   department=self.df['Department'][num], cataloged=self.df['Cataloged'][num],
+                                  object_id=self.df['ObjectID'][num],
                                   height=self.df['Height (cm)'][num], width=self.df['Width (cm)'][num]
                                   )
                 columns = ['Date', 'Title', 'Artist', 'ConstituentId', 'DateAcquired', 'CreditLine',
@@ -99,7 +101,7 @@ class ArtsUtility:
                 if all(isinstance(self.df[col][num], data_type) for col, data_type in data_types.items()):
                     logging.info('Data type validated')
                 else:
-                    logging.info(f'Failed in {num}, {self.df[num]}')
+                    logging.info('Failed')
         except Exception as e:
             raise ValidationError(f"Data type Validation failed") from e
 
